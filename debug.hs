@@ -43,9 +43,13 @@ add' :: Int -> (Int -> Int) -> Int  -- hof curry function
 add'    x                p    = x + 1    -- total 
 
 
+-- This means that add actually takes one argument and returns a function that takes another argument and returns an Int. 
+add :: Int -> Int -> Int -- takes one arg and return a function that takes another arg and return an Int
+add x y = x + y
 
-
-
+-- addOne = add 1
+-- addTwo = addOne 2
+-- addTwo = 3
 
 
 
@@ -76,6 +80,35 @@ keep        p          xs  = indices where
 
 -- isSquare 4 == True
 isSquare n = elem n [a*a | a <- [1..n]]
+
+
+--ff = elem 2 comp reverse 
+comp :: (b -> c) -> (a -> b) -> a -> c
+comp      f            g       x  = f (g x)
+
+x :: [Int] -> Bool
+x = elem 2 `comp` reverse
+
+
+-- map (+1) [1,2] == [2,3]
+-- map' :: (a -> Bool) -> [a] -> [a]
+map'         p           []  = []
+map'         p         (x:xs) = [p x] ++ map' p xs
+
+
+
+
+
+
+
+-- filter' (==2) [1,2,3,4] == [2,2]4
+
+
+
+filter' p  [] = []
+filter' p      xs 
+        | p (head xs)     = [head xs] ++ filter' p (tail xs)
+        | otherwise       = filter'  p (tail xs)
 
 
 

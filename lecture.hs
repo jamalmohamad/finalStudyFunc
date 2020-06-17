@@ -23,14 +23,58 @@ f 2 = 3
 
 
 currying
+transforms a function that takes multiple parameters into a chain of one-parameter functions
+-> is right associative and the function add is left associative
+
+• Uncurried functions: One function, many arguments
+• Curried functions: Many functions, one argument apiece
+
+add :: Int -> (Int -> Int)    means take an arg and return a function that takes another args and return an Int
+
+addOne = add 1
+addTwo = addOne 2
+addTwo = 3
 
 
 normal form of an expression
 x = x + 1
 
-\x -> x + 1
+reducible form
+(\x -> x + 1)(7) == 8 
 
 ################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -42,7 +86,7 @@ What is the difference between left and right associativity?
 
 x = 2   x is a constant
 
-f :: Int -> Int   function f has type of  Integer and will return and integer
+f :: Int -> Int   function f has type of  Integer and will return an integer
 f x      = x * x
 f 2      = 2 * 2 
 f 2 = 4
@@ -70,6 +114,32 @@ left associative
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 3- Define the notion of type. 
 What are the predefined numeric types in Haskell? 
 What is a type class? 
@@ -81,6 +151,8 @@ What is currying in Haskell?
 
 
 -- Types are how we group a set of values together that share something in common.
+:: has type of
+
 numeric types 
 Integral   - Int, Integer 
 Fractional - Float, Double
@@ -96,7 +168,20 @@ Fractional - Float, Double
 
 data MyMaybe a = Nothing | Just a
 
-instanse Show MyMaybe where
+instance Show MyMaybe where
+
+
+
+
+Currying
+transforms a function that takes multiple parameters into a chain of one-parameter functions
+add :: Int -> (Int -> Int)    means take an arg and return a function that takes another args and return an Int
+
+addOne = add 1
+addTwo = addOne 2
+addTwo = 3
+
+##############################################################################################################################
 
 
 
@@ -121,7 +206,6 @@ instanse Show MyMaybe where
 
 
 
-################################################################################################################################
 
 
 
@@ -146,21 +230,51 @@ String can be defined as [Char] (list of Chars)
 #################################################################################################################################
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 5- Show how new data types can be defined in Haskell. 
-What is a type constructor and data constructor? 
-Present an example of new data type in Haskell. 
-Show how functions can pattern match on values of the new data type. 
-When do we say that a function is total or partial? 
+What is a type constructor and data constructor? Present an example of new data type in Haskell. 
+Show how functions can pattern match on values of the new data type. When do we say that a function is total or partial? 
 Present the definition of the list type in Haskell. Make the type an instance of a type class without deriving.
 
+The arrow, (->), is the type constructor for functions in Haskell.
 -- type constructors are used in type signature
 -- data constructors are used in values 
 
+-- data type-constructor = data-constructor
 data MyMaybe a = Nothing | Just a        MyMaybe is type constructor and Nothing, Just is data constructor
 
 
--- total function   - is a function that covers all the possibilities 
--- partial function - is cover
+-- total function   - is defined for all values
+-- partial function - is not defined for all possible values
+
 
 
 
@@ -180,10 +294,9 @@ data MyMaybe a = Nothing | Just a        MyMaybe is type constructor and Nothing
 6- What is a recursive function? 
 Define a recursive function over lists and explain its behavior using step-by-step evaluation. 
 What is a base case? 
-
 Present the three step principle of recursively solving a problem. 
-
 Show how the order of function clauses affects the behavior of the function.
+
 
 
 recursive function is a function that repeat it self
@@ -223,6 +336,23 @@ What operations can be used on a value given only the type class instances of it
 
 
 
+-- Types in Haskell
+1. Integral Type        Integer(limitless) --> Int(fixed precision)
+2. Fractional Type      Float, Double, Rational scintefic
+2. Functional Type      Integer -> Integer -> Integer
+
+
+polymorphisims are like interfaces accept arguments and returns results of multiples type 
+
+-- polymorphisim types
+1. concerete               f :: Integer -> Integer
+2. parametric              f :: a -> a
+3. constraind              f :: Integer -> Integer
+
+
+
+
+typeclasses : Num, Ord, Eq, Show
 
 
 
@@ -244,17 +374,65 @@ What operations can be used on a value given only the type class instances of it
 8- What is a higher order function? 
 Define a higher order function in Haskell. 
 Define the function composition operator in Haskell together with its type and demonstrate its use in an expression. 
+Define map and filter. What is an anonymous function? What are sections in Haskell?
 
-Define map and filter. 
+HOF are functions that accept functions as arguments
 
-What is an anonymous function? 
+(.)
+ff :: [Int] -> Bool
+ff = elem 2 `comp` reverse 
+
+comp :: (b -> c) -> (a -> b) -> a -> c
+comp      f            g       x  = f (g x)
 
 
-What are sections in Haskell?
+anonymous functions are also called lambda 
+\x -> x + 1
 
+-- map (+1) [1,2] == [2,3] 
+map p    []    = []
+map p   (x:xs) = p x : map' p xs
+
+
+filter' (==1) [1,2,3,1] == [1,1
+
+filter' p [] = []
+filter' p   (x:xs) 
+    | p x = [x] ++ filter' p xs
+    | otherwise = filter' p xs
+
+
+
+Sections
+refers to partial application of infix operators
+(+1) 2 == 3
 
 
 ################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 9- What does it mean to fold a list? 
@@ -262,6 +440,24 @@ What is the difference between folding from left and right?
 Define foldr with type declaration and demonstrate its use in an example. 
 Define a recursive function over list using foldr. 
 Define foldl with type declaration and demonstrate its use in an example.
+
+folding a list, means apply default operator to multiple elements to get single results
+
+folding from left 
+
+folding from right
+
+
+foldr 
+
+
+foldl
+
+
+map with foldr
+
+map with foldl
+
 
 -}
 
