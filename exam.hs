@@ -273,3 +273,6 @@ chunks n (x:xs)=[take n (x:xs)]++chunks n (drop n (x:xs))
 
 -- f :: (a -> b -> a -> c) -> (a -> b) -> [a] -> [c]
 -- f         p                  op        (x:xs)  = [p (op x xs)] 
+
+
+main =  print(f 1 [1,2,3,4])

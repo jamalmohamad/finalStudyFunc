@@ -30,8 +30,9 @@ module Debug where
 
 
 
-
-
+productOf :: (Int -> Bool) -> [Int] -> Int
+--productOf (<4) [1,7,2,6,3,3,5] == 18
+productOf        p              xs = product (filter p xs)
 
 
 

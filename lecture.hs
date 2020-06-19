@@ -92,6 +92,8 @@ f 2      = 2 * 2
 f 2 = 4
 
 
+function application $
+
 
     
 2 * 2      infix form
@@ -149,6 +151,9 @@ Define a new data type and make the type an instance of a type class without der
 Present how function types are written in Haskell. 
 What is currying in Haskell?
 
+Type annotation syntax is  [function name] ::  [type]  f :: Int
+Type class syntax is         (Ea a, Num a) => a ......
+
 
 -- Types are how we group a set of values together that share something in common.
 :: has type of
@@ -163,19 +168,22 @@ Fractional - Float, Double
 :info Fractional
 :info Eq
 :info Ord
-:info 
+
+data Date = Sunday | Monday | Tuesday
 
 
-data MyMaybe a = Nothing | Just a
+instance Show Date where
+    show Sunday   = "Sunday"
+    show Monday   = "Monday"
+    show Tuesday  = "Tuesday"
 
-instance Show MyMaybe where
-
-
+presentDate :: Date -> Date
+presentDate   Sunday      = Sunday
 
 
 Currying
 transforms a function that takes multiple parameters into a chain of one-parameter functions
-add :: Int -> (Int -> Int)    means take an arg and return a function that takes another args and return an Int
+add :: Int -> (Int -> Int)    means take an arg and return a function that takes another args and return an Int, -> is right associative
 
 addOne = add 1
 addTwo = addOne 2
@@ -214,7 +222,7 @@ Present the list type, its data constructors, and how a function can pattern mat
 What is the difference between tuples and lists? 
 
 
-typles (1, 'a', "hello") :: (Int, Char, String)          tuples can mix between types
+tuples (1, 'a', "hello") :: (Int, Char, String)          tuples can mix between types
 lists  [1,2,3] :: [Int] ot ['a'] :: Sting/ [Char]        list can not mix between types
 
 
@@ -305,7 +313,7 @@ base case is the non recursive function that stops the recursion
 three principles are 
 -- divide problem into sub-problems
 -- define base case
--- combine all sub-problems solutioans to solve the original problem
+-- combine all sub-problems solutions to solve the original problem
 
 
 count 0  = []
@@ -376,7 +384,7 @@ Define a higher order function in Haskell.
 Define the function composition operator in Haskell together with its type and demonstrate its use in an expression. 
 Define map and filter. What is an anonymous function? What are sections in Haskell?
 
-HOF are functions that accept functions as arguments
+HOF takes functions as arguments or returns a function
 
 (.)
 ff :: [Int] -> Bool
@@ -456,7 +464,6 @@ foldl
 
 map with foldr
 
-map with foldl
 
 
 -}
