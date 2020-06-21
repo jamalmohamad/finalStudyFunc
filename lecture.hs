@@ -107,10 +107,11 @@ infixl 7 *     precedence level 7, associate from left
 
 right associative
 2 + (4 - 6) == 4
+(1 - (2 + 3)) == -4
 
 left associative
 (2 + 4) - 6 == 0
-
+((1 - 2) + 3) == 2
 ################################################################################################################################
 
 
@@ -284,6 +285,20 @@ data MyMaybe a = Nothing | Just a        MyMaybe is type constructor and Nothing
 -- partial function - is not defined for all possible values
 
 
+-- Partial function: not defined for all values.
+myLookup :: Integer -> Char
+myLookup 1 = 'a'
+myLookup 2 = 'b'
+myLookup n = undefined
+
+
+-- Handling partiality with Maybe:
+-- Total function: defined for all values.
+myLookup' :: Integer -> Maybe Char
+myLookup' 1 = Just 'a'
+myLookup' 2 = Just 'b'
+myLookup' n = Nothing
+
 
 
 
@@ -311,8 +326,8 @@ recursive function is a function that repeat it self
 base case is the non recursive function that stops the recursion 
 
 three principles are 
--- divide problem into sub-problems
--- define base case
+-- break down problem into sub-problems
+-- solve the sub-problems recursively
 -- combine all sub-problems solutions to solve the original problem
 
 
@@ -452,14 +467,26 @@ Define foldl with type declaration and demonstrate its use in an example.
 folding a list, means apply default operator to multiple elements to get single results
 
 folding from left 
+foldl (-) 0 [1,2,3] == (((0 - 1) - 2) - 3) == -6
+
 
 folding from right
+foldr (-) 0 [1,2,3] == (1 - 2 - (3 - 0))) == 2
 
 
-foldr 
+-- foldr' (-) 0 [1,2,3] == 2 
+foldr' :: (a -> b -> b) -> b -> [a] -> b
+foldr'        p     _def            []  =  _def
+foldr'        p      _def  (x:xs)  = p x (foldr' p _def xs)
 
 
-foldl
+
+
+
+-- foldl' (-) 0 [1,2,3] == 6
+foldl' :: (b -> a -> b) -> b -> [a] -> b
+foldl'         p          _def   []       = _def
+foldl'         p          _def  (x:xs)    = foldl' p (p _def x) xs
 
 
 map with foldr
