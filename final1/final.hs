@@ -215,10 +215,6 @@ isSquare     n   = elem n [a*a | a<- [1..n]]
 
 
 
-
-
-
-
 -- foldr' (-) 0 [1,2,3] == 2 
 foldr' :: (a -> b -> b) -> b -> [a] -> b
 foldr'        p     _def            []  =  _def
@@ -381,4 +377,72 @@ addIndex    xs    = map (\(i,x) -> i+x) (zip[0..] xs)
 
 --expand :: [(Int, a)] -> [a]
 expand     []       = []
-expand    xs        = concat $ map (\(i, x) -> replicate i x) xs  
+expand    xs        = concat $ map (\(i, x) -> replicate i x) xs 
+
+-- Examples:
+--   allDifferent []           == True
+--   allDifferent [1, 1]       == False
+--   allDifferent [1, 2, 3]    == True
+--   allDifferent [1, 2, 3, 2] == False
+allDifferent     [] = True
+allDifferent (x:xs) 
+    | x `elem` xs = False
+    | otherwise   = allDifferent xs
+
+-- 1. Define a type Time, that can store times of the day in the format (HH AM/HH PM).
+--   (e.g. 12 AM,  01 AM,  12 PM,  07 PM, ...)
+
+data Time = Time Int String deriving(Show,Eq)
+
+
+
+-- 2. Define a function `nextTime :: Time -> Time` that advances a given time of the day by 1 hour.
+nextTime :: Time -> Time
+nextTime    (Time x y) 
+    | x == 12 && y == "AM" = Time (succ x) "PM"
+    | otherwise            = Time (succ x) "AM"
+
+
+
+-- Define a function `f :: Eq a => [a] -> [a] -> Int`.
+-- Given two lists `xs` and `ys`, `f xs ys` should count the number of positions
+-- where the two lists match.
+-- Examples:
+--  f "abc" "abc" == 3
+--  f "abc" "aaa" == 1
+--  f "abc" "aac" == 2
+--  f "abc" "cab" == 0
+--  f ""    "abc" == 0
+
+f1 :: Eq a => [a] -> [a] -> Int
+f1       []  ys          = 0
+
+f1            (x:xs)  (y:ys)
+    | x == y                = 1 + f1 xs ys
+    | otherwise             = f1 xs ys
+
+
+
+-- Define a function `f :: Eq a => [a] -> [[a]]`
+--   `f xs` should split the list `xs` between each pair of consecutive equal elements.
+
+ 
+
+-- Examples:
+--   f [1, 2, 3, 4] = [[1, 2, 3, 4]]
+--   f [1, 2, 2, 1] = [[1, 2], [2, 1]]
+--   f [1, 1, 1, 1] = [[1], [1], [1], [1]]
+--   f [] = []
+
+ 
+
+f2 :: Eq a => [a] -> [[a]]
+f2        []      = []
+f2         (x:y:xs)
+    | x /= y            =  [(x:y:xs)]
+    | otherwise         = []
+    
+
+
+
+
